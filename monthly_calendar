@@ -2,31 +2,31 @@
 # Peyton Wall
 # 2024-16-09
 
-def is_leap_year(year):
-    return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
+def isLeapYear(year):
+    return (year % 100 != 0 and year % 4 == 0 ) or (year % 400 == 0)
 
-def get_month_name(month):
+def monthName(month):
     months = ["January", "February", "March", "April", "May", "June",
               "July", "August", "September", "October", "November", "December"]
     return months[month - 1]
 
-def days_in_month(month,year):
+def numDaysInMonth(month,year):
     # The current month (September, 2024) should have 30 days
     """
-    >>> days_in_month(9,2024)
+    >>> numDaysInMonth(9,2024)
     30
     """
     if month in [4, 6, 9, 11]:
         return 30
     elif month == 2:
-        return 29 if is_leap_year(year) else 28
+        return 29 if isLeapYear(year) else 28
     else:
         return 31
 
-def starting_day_of_week(month,year):
+def firstDayInWeek(month,year):
     # This day should start on Monday in the month I was born (May, 2005)
     """
-    >>> starting_day_of_week(5,2005)
+    >>> firstDayInWeek(5,2005)
     0
     """
     m = month
@@ -41,20 +41,20 @@ def starting_day_of_week(month,year):
 
 
 def printcal(month,year):
-    month_name = get_month_name(month)
+    month_name = monthName(month)
     title = f"{month_name} {year}"
     print(title.center(20).rstrip()) # I wish I could just use rjust()
     print("Su Mo Tu We Th Fr Sa")
     
-    start_day = starting_day_of_week(month,year)
-    days = days_in_month(month,year)
+    start_day = firstDayInWeek(month,year)
+    days = numDaysInMonth(month,year)
     
-    week = ['  '] * 7
+    week = ["  "] * 7
     current_day = 1
     for i in range(start_day, 7):
         week[i] = f"{current_day:2}"
         current_day += 1
-    print(' '.join(week).rstrip())
+    print(" ".join(week).rstrip())
     
     while current_day <= days:
         week = []
@@ -63,14 +63,14 @@ def printcal(month,year):
                 week.append(f"{current_day:2}")
                 current_day += 1
             else:
-                week.append('  ')
-        print(' '.join(week).rstrip())
+                week.append("  ")
+        print(" ".join(week).rstrip())
     
     # Please be 8 lines
     total_lines = 2 + (days + start_day + 6) // 7
     lines_needed = 8 - total_lines
     if lines_needed > 0:
-        print('\n' * lines_needed, end='')
+        print("\n" * lines_needed, end="")
 
 month, year = map(int,input().split())
 printcal(month,year)
